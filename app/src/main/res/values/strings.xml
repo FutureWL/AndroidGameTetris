@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">俄罗斯方块</string>
+    <string name="author">蓝色技术工作室 制作</string>
+    <string name="tv">http://lsjse.com</string>
 </resources>

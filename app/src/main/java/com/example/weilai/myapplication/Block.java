@@ -20,13 +20,13 @@ public class Block {
     public int code;
 
     int[][][] block = {
-            {{0, 0}, {0, 1}, {1, 1}, {1, 2}},
-            {{0, 0}, {1, 0}, {2, 0}, {3, 0}},
-            {{0, 0}, {0, 1}, {1, 0}, {1, 1}},
-            {{0, 1}, {1, 1}, {0, 1}, {0, 2}},
-            {{0, 0}, {0, 1}, {1, 1}, {2, 1}},
-            {{2, 0}, {2, 1}, {1, 1}, {0, 1}},
-            {{0, 1}, {1, 0}, {1, 1}, {2, 1}}
+            {{0, 0}, {0, 1}, {1, 1}, {1, 2}},   // s
+            {{0, 0}, {1, 0}, {2, 0}, {3, 0}},   // z
+            {{0, 0}, {0, 1}, {1, 0}, {1, 1}},   // l
+            {{1, 0}, {1, 1}, {0, 1}, {0, 2}},   // j
+            {{0, 0}, {0, 1}, {1, 1}, {2, 1}},   // i
+            {{2, 0}, {2, 1}, {1, 1}, {0, 1}},   // o
+            {{0, 1}, {1, 0}, {1, 1}, {2, 1}}    // t
     };
 
 
@@ -137,7 +137,7 @@ public class Block {
                 tp[0][0] += 2;//横坐标加二
                 tp[1][0]++;
                 tp[1][1]--;
-                tp[2][0]--;
+                tp[3][0]--;
                 tp[3][1]--;
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
@@ -146,12 +146,11 @@ public class Block {
                 } else
                     return false;
             case 11:
+                tp[0][0] -= 2;
                 tp[1][0]--;
-                tp[1][1]--;
-                tp[2][1] += 2;
-                tp[2][0] -= 2;
-                tp[3][0] -= 3;
-                tp[3][1] += 3;
+                tp[1][1]++;
+                tp[3][0]++;
+                tp[3][1]++;
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
                     code = 1;
@@ -168,6 +167,19 @@ public class Block {
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
                     code = 21;
+                    return true;
+                } else
+                    return false;
+            case 21:
+                tp[1][0]++;
+                tp[1][1]--;
+                tp[2][0] += 2;
+                tp[2][1] -= 2;
+                tp[3][0] += 3;
+                tp[3][1] -= 3;
+                if (!islimit(tp) && !isconflic(tp, map)) {
+                    ps = tp;
+                    code = 2;
                     return true;
                 } else
                     return false;
@@ -228,12 +240,12 @@ public class Block {
                 } else
                     return false;
             case 52:
-                tp[0][0]--;
+                tp[0][0] -= 2;
                 tp[0][1]++;
+                tp[1][0]--;
                 tp[1][1] += 2;
-                tp[2][0]++;
                 tp[2][1]++;
-                tp[3][0] += 2;
+                tp[3][0]++;
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
                     code = 53;
@@ -241,11 +253,11 @@ public class Block {
                 } else
                     return false;
             case 53:
-                tp[0][1]--;
+                tp[0][1] -= 2;
                 tp[1][0]--;
-                tp[2][1]++;
+                tp[1][1]--;
                 tp[3][0]++;
-                tp[3][1] += 2;
+                tp[3][1]++;
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
                     code = 5;
@@ -271,8 +283,7 @@ public class Block {
                 tp[1][1] -= 2;
                 tp[2][0]++;
                 tp[2][1]--;
-                tp[3][0]++;
-                tp[3][1]--;
+                tp[3][0] += 2;
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
                     code = 62;
@@ -284,7 +295,7 @@ public class Block {
                 tp[1][0]++;
                 tp[2][1]++;
                 tp[3][0]--;
-                tp[3][1]++;
+                tp[3][1] += 2;
                 if (!islimit(tp) && !isconflic(tp, map)) {
                     ps = tp;
                     code = 63;
@@ -293,8 +304,8 @@ public class Block {
                     return false;
             case 63:
                 tp[0][0] += 2;
-                tp[1][0]--;
-                tp[1][1]--;
+                tp[1][0]++;
+                tp[1][1]++;
                 tp[3][0]--;
                 tp[3][1]--;
                 if (!islimit(tp) && !isconflic(tp, map)) {

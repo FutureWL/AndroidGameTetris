@@ -74,7 +74,7 @@ public class Map {
                 line++;
                 for (int l = i; l > 0; l--) {
                     for (int j = 0; j < 10; j++) {
-                        map[i][j] = map[l - 1][j];
+                        map[l][j] = map[l - 1][j];
                     }
                 }
             }

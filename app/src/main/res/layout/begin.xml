@@ -56,4 +56,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="退出游戏" />
+
+    <TextView
+        android:text="@string/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:autoLink="web"
+        android:text="@string/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

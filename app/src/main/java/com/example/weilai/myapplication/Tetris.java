@@ -27,6 +27,7 @@ import java.util.TimerTask;
 
 public class Tetris extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener {
     RadioButton easy, medium, hard;
+    Button right, left, down, change;
     Boolean music = false;
     int level = 500;
 
@@ -59,6 +60,17 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
                 setContentView(R.layout.game);
                 gameView = (GameView) findViewById(R.id.gmview);
                 nextBlockView = (NextBlockView) findViewById(R.id.nbview);
+
+                right = (Button) findViewById(R.id.right);
+                left = (Button) findViewById(R.id.left);
+                down = (Button) findViewById(R.id.down);
+                change = (Button) findViewById(R.id.change);
+
+                right.setOnClickListener(this);
+                left.setOnClickListener(this);
+                change.setOnClickListener(this);
+                down.setOnClickListener(this);
+
                 timer.scheduleAtFixedRate(new MyTask(), 1, level);
                 if (music) {
                     media = MediaPlayer.create(this, R.raw.music);
@@ -69,6 +81,22 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
                 break;
             case R.id.exit_button:
                 finish();
+                break;
+            case R.id.right:
+                gameView.block.right(gameView.map.map);
+                gameView.invalidate();
+                break;
+            case R.id.left:
+                gameView.block.left(gameView.map.map);
+                gameView.invalidate();
+                break;
+            case R.id.down:
+                gameView.block.down(gameView.map.map);
+                gameView.invalidate();
+                break;
+            case R.id.change:
+                gameView.block.change(gameView.map.map);
+                gameView.invalidate();
                 break;
         }
     }
