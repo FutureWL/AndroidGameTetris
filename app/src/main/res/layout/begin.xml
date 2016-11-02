@@ -17,12 +17,13 @@
         android:layout_height="wrap_content"
         android:text="开始游戏" />
 
-    <CheckBox
+    <ToggleButton
         android:id="@+id/ck_background_music"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
-        android:text="背景音乐" />
+        android:textOff="音乐关"
+        android:textOn="音乐开" />
 
     <RadioGroup
         android:id="@+id/level"

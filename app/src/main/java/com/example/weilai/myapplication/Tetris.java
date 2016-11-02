@@ -11,11 +11,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,7 +40,7 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
         setContentView(R.layout.begin);
         Button startButton = (Button) findViewById(R.id.start_button);
         startButton.setOnClickListener(this);
-        CheckBox sound = (CheckBox) findViewById(R.id.ck_background_music);
+        ToggleButton sound = (ToggleButton) findViewById(R.id.ck_background_music);
         sound.setOnCheckedChangeListener(this);
         RadioGroup level = (RadioGroup) findViewById(R.id.level);
         easy = (RadioButton) findViewById(R.id.easy);
@@ -48,7 +49,7 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
         level.setOnCheckedChangeListener(this);
         Button exit = (Button) findViewById(R.id.exit_button);
         exit.setOnClickListener(this);
-
+        music = sound.isChecked();
     }
 
     @Override
@@ -74,8 +75,17 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        System.out.println(isChild());
-        music = isChild();
+        switch (compoundButton.getId()) {
+            case R.id.ck_background_music:
+                if (compoundButton.isChecked()) {
+                    Toast.makeText(this, "打开声音", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(this, "关闭声音", Toast.LENGTH_SHORT).show();
+                }
+                music = isChild();
+                break;
+        }
     }
 
     @Override
@@ -157,7 +167,7 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
                                             setContentView(R.layout.begin);
                                             Button startButton = (Button) findViewById(R.id.start_button);
                                             startButton.setOnClickListener(Tetris.this);
-                                            CheckBox sound = (CheckBox) findViewById(R.id.ck_background_music);
+                                            ToggleButton sound = (ToggleButton) findViewById(R.id.ck_background_music);
                                             sound.setOnCheckedChangeListener(Tetris.this);
                                             RadioGroup level = (RadioGroup) findViewById(R.id.level);
                                             easy = (RadioButton) findViewById(R.id.easy);
@@ -167,6 +177,7 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
                                             Button exit = (Button) findViewById(R.id.exit_button);
                                             exit.setOnClickListener(Tetris.this);
                                             timer = new Timer();
+                                            music = sound.isChecked();
                                         }
                                     }).show();
                         }
@@ -186,4 +197,11 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
             handler.sendMessage(message);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        media.pause();
+    }
+
 }
