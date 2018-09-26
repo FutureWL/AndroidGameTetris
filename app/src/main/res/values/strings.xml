@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">俄罗斯方块</string>
     <string name="author">蓝色技术工作室 制作</string>
-    <string name="tv">http://lsjse.com</string>
+    <string name="tv">http://lansejishu.com</string>
+    <string name="game_name">俄罗斯方块</string>
+    <string name="play">开始游戏</string>
+    <string name="level_0">初级</string>
+    <string name="level_1">中级</string>
+    <string name="level_2">高级</string>
+    <string name="exit">退出游戏</string>
 </resources>

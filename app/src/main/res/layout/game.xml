@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <com.example.weilai.myapplication.GameView
+        <com.example.weilai.myapplication.view.GameView
             android:id="@+id/gmview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,7 +26,7 @@
             android:layout_weight="25"
             android:orientation="vertical">
 
-            <com.example.weilai.myapplication.NextBlockView
+            <com.example.weilai.myapplication.view.NextBlockView
                 android:id="@+id/nbview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

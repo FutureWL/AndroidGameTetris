@@ -8,22 +8,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="俄罗斯方块"
+        android:text="@string/game_name"
         android:textAppearance="@android:style/TextAppearance.Widget.TextView" />
 
     <Button
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开始游戏" />
-
-    <ToggleButton
-        android:id="@+id/ck_background_music"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:textOff="音乐关"
-        android:textOn="音乐开" />
+        android:text="@string/play" />
 
     <RadioGroup
         android:id="@+id/level"
@@ -36,34 +28,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="初级" />
+            android:text="@string/level_0" />
 
         <RadioButton
             android:id="@+id/medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="中级" />
+            android:text="@string/level_1" />
 
         <RadioButton
             android:id="@+id/hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="高级" />
+            android:text="@string/level_2" />
     </RadioGroup>
 
     <Button
         android:id="@+id/exit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="退出游戏" />
+        android:text="@string/exit" />
 
     <TextView
-        android:text="@string/author"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/author" />
+
     <TextView
-        android:autoLink="web"
-        android:text="@string/tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:text="@string/tv" />
 </LinearLayout>

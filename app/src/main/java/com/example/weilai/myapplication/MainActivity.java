@@ -2,21 +2,20 @@ package com.example.weilai.myapplication;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
+
+import com.example.weilai.myapplication.entity.Block;
+import com.example.weilai.myapplication.view.GameView;
+import com.example.weilai.myapplication.view.NextBlockView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,23 +24,17 @@ import java.util.TimerTask;
  * 启动活动
  * Created by weilai on 2016/11/1.
  */
-public class MainActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     // -------------------------------- //
     private RadioButton easy;
     private RadioButton medium;
     private RadioButton hard;
-    private Button right;
-    private Button left;
-    private Button down;
-    private Button change;
     // -------------------------------- //
-    private Boolean music = false;
     private int level = 500;
     // -------------------------------- //
     private GameView gameView;
     private NextBlockView nextBlockView;
-    private MediaPlayer media;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +42,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         setContentView(R.layout.begin);
         Button startButton = findViewById(R.id.start_button);
         Button exit = findViewById(R.id.exit_button);
-        ToggleButton sound = findViewById(R.id.ck_background_music);
         RadioGroup level = findViewById(R.id.level);
         hard = findViewById(R.id.hard);
         easy = findViewById(R.id.easy);
         medium = findViewById(R.id.medium);
         startButton.setOnClickListener(this);
-        sound.setOnCheckedChangeListener(this);
         level.setOnCheckedChangeListener(this);
         exit.setOnClickListener(this);
-        music = sound.isChecked();
     }
 
     @Override
@@ -68,55 +58,34 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                 setContentView(R.layout.game);
                 gameView = findViewById(R.id.gmview);
                 nextBlockView = findViewById(R.id.nbview);
-                right = findViewById(R.id.right);
-                left = findViewById(R.id.left);
-                down = findViewById(R.id.down);
-                change = findViewById(R.id.change);
+                Button right = findViewById(R.id.right);
+                Button left = findViewById(R.id.left);
+                Button down = findViewById(R.id.down);
+                Button change = findViewById(R.id.change);
                 right.setOnClickListener(this);
                 left.setOnClickListener(this);
                 change.setOnClickListener(this);
                 down.setOnClickListener(this);
                 timer.scheduleAtFixedRate(new MyTask(), 1, level);
-                if (music) {
-                    media = MediaPlayer.create(this, R.raw.music);
-                    media.setLooping(true);
-                    media.start();
-                }
-                Log.d("Test", "变量的值是 music:" + music + " level:" + level);
                 break;
             case R.id.exit_button:
                 finish();
                 break;
             case R.id.right:
-                gameView.block.right(gameView.map.map);
+                gameView.getBlock().right(gameView.getMap().getMap());
                 gameView.invalidate();
                 break;
             case R.id.left:
-                gameView.block.left(gameView.map.map);
+                gameView.getBlock().left(gameView.getMap().getMap());
                 gameView.invalidate();
                 break;
             case R.id.down:
-                gameView.block.down(gameView.map.map);
+                gameView.getBlock().down(gameView.getMap().getMap());
                 gameView.invalidate();
                 break;
             case R.id.change:
-                gameView.block.change(gameView.map.map);
+                gameView.getBlock().change(gameView.getMap().getMap());
                 gameView.invalidate();
-                break;
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        switch (compoundButton.getId()) {
-            case R.id.ck_background_music:
-                if (compoundButton.isChecked()) {
-                    Toast.makeText(this, "打开声音", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(this, "关闭声音", Toast.LENGTH_SHORT).show();
-                }
-                music = isChild();
                 break;
         }
     }
@@ -136,22 +105,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-            gameView.block.change(gameView.map.map);
+            gameView.getBlock().change(gameView.getMap().getMap());
             gameView.invalidate();
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-            gameView.block.down(gameView.map.map);
+            gameView.getBlock().down(gameView.getMap().getMap());
             gameView.invalidate();
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            gameView.block.left(gameView.map.map);
+            gameView.getBlock().left(gameView.getMap().getMap());
             gameView.invalidate();
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            gameView.block.right(gameView.map.map);
+            gameView.getBlock().right(gameView.getMap().getMap());
             gameView.invalidate();
             return true;
         }
@@ -169,12 +138,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    if (!gameView.block.down(gameView.map.map)) {
-                        gameView.map.resetMap(gameView.block.ps);
-                        score = score + 100 * gameView.map.deleteLine();
-                        if (!gameView.map.isOver()) {
-                            gameView.block = nextBlockView.block;
-                            nextBlockView.block = new Block();
+                    if (!gameView.getBlock().down(gameView.getMap().getMap())) {
+                        gameView.getMap().resetMap(gameView.getBlock().getPs());
+                        score = score + 100 * gameView.getMap().deleteLine();
+                        if (!gameView.getMap().isOver()) {
+                            gameView.setBlock(nextBlockView.getBlock());
+                            nextBlockView.setBlock(new Block());
                             TextView textView = findViewById(R.id.score);
                             textView.setText("score" + score);
                         } else {
@@ -196,8 +165,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                                         setContentView(R.layout.begin);
                                         Button startButton = findViewById(R.id.start_button);
                                         startButton.setOnClickListener(MainActivity.this);
-                                        ToggleButton sound = findViewById(R.id.ck_background_music);
-                                        sound.setOnCheckedChangeListener(MainActivity.this);
                                         RadioGroup level = findViewById(R.id.level);
                                         easy = findViewById(R.id.easy);
                                         medium = findViewById(R.id.medium);
@@ -206,7 +173,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                                         Button exit = findViewById(R.id.exit_button);
                                         exit.setOnClickListener(MainActivity.this);
                                         timer = new Timer();
-                                        music = sound.isChecked();
                                     }).show();
                         }
                         break;
@@ -229,7 +195,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
     @Override
     protected void onPause() {
         super.onPause();
-        media.pause();
     }
 
 }
