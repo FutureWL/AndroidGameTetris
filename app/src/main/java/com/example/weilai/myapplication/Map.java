@@ -9,15 +9,15 @@ import android.graphics.Rect;
 /**
  * Created by weilai on 2016/11/1.
  */
-
 public class Map {
+
     int[][] map;
 
     public Map() {
         this.map = new int[20][10];
     }
 
-    public void drawmap(Canvas canvas, Bitmap bitmap) {
+    public void drawMap(Canvas canvas, Bitmap bitmap) {
         Rect rect = new Rect();
         int i, k;
         int x, y;
@@ -38,7 +38,7 @@ public class Map {
         }
     }
 
-    public boolean isover() {
+    public boolean isOver() {
         for (int i = 0; i < 10; i++) {
             if (map[0][i] == 1) {
                 return true;
@@ -47,13 +47,13 @@ public class Map {
         return false;
     }
 
-    public void resetmap(int[][] b) {
+    public void resetMap(int[][] b) {
         for (int i = 0; i < 4; i++) {
             map[b[i][1]][b[i][0]] = 1;
         }
     }
 
-    public int deleteline() {
+    public int deleteLine() {
         boolean flag;
         int line = 0;
 

@@ -1,7 +1,7 @@
 package com.example.weilai.myapplication;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,33 +22,41 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * 启动活动
  * Created by weilai on 2016/11/1.
  */
+public class MainActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener {
 
-public class Tetris extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener {
-    RadioButton easy, medium, hard;
-    Button right, left, down, change;
-    Boolean music = false;
-    int level = 500;
-
-    GameView gameView;
-    NextBlockView nextBlockView;
-    MediaPlayer media;
+    // -------------------------------- //
+    private RadioButton easy;
+    private RadioButton medium;
+    private RadioButton hard;
+    private Button right;
+    private Button left;
+    private Button down;
+    private Button change;
+    // -------------------------------- //
+    private Boolean music = false;
+    private int level = 500;
+    // -------------------------------- //
+    private GameView gameView;
+    private NextBlockView nextBlockView;
+    private MediaPlayer media;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.begin);
-        Button startButton = (Button) findViewById(R.id.start_button);
+        Button startButton = findViewById(R.id.start_button);
+        Button exit = findViewById(R.id.exit_button);
+        ToggleButton sound = findViewById(R.id.ck_background_music);
+        RadioGroup level = findViewById(R.id.level);
+        hard = findViewById(R.id.hard);
+        easy = findViewById(R.id.easy);
+        medium = findViewById(R.id.medium);
         startButton.setOnClickListener(this);
-        ToggleButton sound = (ToggleButton) findViewById(R.id.ck_background_music);
         sound.setOnCheckedChangeListener(this);
-        RadioGroup level = (RadioGroup) findViewById(R.id.level);
-        easy = (RadioButton) findViewById(R.id.easy);
-        medium = (RadioButton) findViewById(R.id.medium);
-        hard = (RadioButton) findViewById(R.id.hard);
         level.setOnCheckedChangeListener(this);
-        Button exit = (Button) findViewById(R.id.exit_button);
         exit.setOnClickListener(this);
         music = sound.isChecked();
     }
@@ -58,19 +66,16 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
         switch (view.getId()) {
             case R.id.start_button:
                 setContentView(R.layout.game);
-                gameView = (GameView) findViewById(R.id.gmview);
-                nextBlockView = (NextBlockView) findViewById(R.id.nbview);
-
-                right = (Button) findViewById(R.id.right);
-                left = (Button) findViewById(R.id.left);
-                down = (Button) findViewById(R.id.down);
-                change = (Button) findViewById(R.id.change);
-
+                gameView = findViewById(R.id.gmview);
+                nextBlockView = findViewById(R.id.nbview);
+                right = findViewById(R.id.right);
+                left = findViewById(R.id.left);
+                down = findViewById(R.id.down);
+                change = findViewById(R.id.change);
                 right.setOnClickListener(this);
                 left.setOnClickListener(this);
                 change.setOnClickListener(this);
                 down.setOnClickListener(this);
-
                 timer.scheduleAtFixedRate(new MyTask(), 1, level);
                 if (music) {
                     media = MediaPlayer.create(this, R.raw.music);
@@ -154,59 +159,54 @@ public class Tetris extends Activity implements View.OnClickListener, CompoundBu
         return super.onKeyDown(keyCode, event);
     }
 
-
     Timer timer = new Timer();
     int score = 0;
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     if (!gameView.block.down(gameView.map.map)) {
-                        gameView.map.resetmap(gameView.block.ps);
-                        score = score + 100 * gameView.map.deleteline();
-                        if (!gameView.map.isover()) {
+                        gameView.map.resetMap(gameView.block.ps);
+                        score = score + 100 * gameView.map.deleteLine();
+                        if (!gameView.map.isOver()) {
                             gameView.block = nextBlockView.block;
                             nextBlockView.block = new Block();
-                            TextView textView = (TextView) findViewById(R.id.score);
+                            TextView textView = findViewById(R.id.score);
                             textView.setText("score" + score);
                         } else {
                             timer.cancel();
                             String s;
                             s = String.valueOf(score);
-                            new AlertDialog.Builder(Tetris.this)
+                            new AlertDialog.Builder(MainActivity.this)
                                     .setTitle("提示")
                                     .setMessage("游戏结束你的得分是：" + s)
                                     .setIcon(R.mipmap.ic_launcher)
-                                    .setPositiveButton("退出", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            setResult(RESULT_OK);
-                                            finish();
-                                            Tetris.this.finish();
-                                        }
+                                    .setPositiveButton("退出", (dialogInterface, i) -> {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                        MainActivity.this.finish();
                                     })
-                                    .setNegativeButton("重新开始", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            setTitle("俄罗斯方块");
-                                            score = 0;
-                                            setContentView(R.layout.begin);
-                                            Button startButton = (Button) findViewById(R.id.start_button);
-                                            startButton.setOnClickListener(Tetris.this);
-                                            ToggleButton sound = (ToggleButton) findViewById(R.id.ck_background_music);
-                                            sound.setOnCheckedChangeListener(Tetris.this);
-                                            RadioGroup level = (RadioGroup) findViewById(R.id.level);
-                                            easy = (RadioButton) findViewById(R.id.easy);
-                                            medium = (RadioButton) findViewById(R.id.medium);
-                                            hard = (RadioButton) findViewById(R.id.hard);
-                                            level.setOnCheckedChangeListener(Tetris.this);
-                                            Button exit = (Button) findViewById(R.id.exit_button);
-                                            exit.setOnClickListener(Tetris.this);
-                                            timer = new Timer();
-                                            music = sound.isChecked();
-                                        }
+                                    .setNegativeButton("重新开始", (dialogInterface, i) -> {
+                                        setTitle("俄罗斯方块");
+                                        score = 0;
+                                        setContentView(R.layout.begin);
+                                        Button startButton = findViewById(R.id.start_button);
+                                        startButton.setOnClickListener(MainActivity.this);
+                                        ToggleButton sound = findViewById(R.id.ck_background_music);
+                                        sound.setOnCheckedChangeListener(MainActivity.this);
+                                        RadioGroup level = findViewById(R.id.level);
+                                        easy = findViewById(R.id.easy);
+                                        medium = findViewById(R.id.medium);
+                                        hard = findViewById(R.id.hard);
+                                        level.setOnCheckedChangeListener(MainActivity.this);
+                                        Button exit = findViewById(R.id.exit_button);
+                                        exit.setOnClickListener(MainActivity.this);
+                                        timer = new Timer();
+                                        music = sound.isChecked();
                                     }).show();
                         }
                         break;

@@ -10,7 +10,6 @@ import android.view.View;
 /**
  * Created by weilai on 2016/11/1.
  */
-
 public class NextBlockView extends View {
 
     Block block = new Block();
@@ -29,6 +28,6 @@ public class NextBlockView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        block.drawblock(canvas, bitmap, block.ps);
+        block.drawBlock(canvas, bitmap, block.ps);
     }
 }

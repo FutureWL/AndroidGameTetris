@@ -49,7 +49,7 @@ public class GameView extends View {
             canvas.drawLine(0, y, height * 10, y, paint);
             y = y + height;
         }
-        map.drawmap(canvas, bitmap);
-        block.drawblock(canvas, bitmap, block.ps);
+        map.drawMap(canvas, bitmap);
+        block.drawBlock(canvas, bitmap, block.ps);
     }
 }

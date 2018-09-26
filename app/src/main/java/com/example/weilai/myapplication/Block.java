@@ -16,7 +16,7 @@ public class Block {
 
 
     public int[][] ps;
-    public int[][] initps;
+    public int[][] initPS;
     public int code;
 
     int[][][] block = {
@@ -32,24 +32,24 @@ public class Block {
 
     public Block() {
         ps = new int[4][2];
-        initps = new int[4][2];
-        newrblock();
+        initPS = new int[4][2];
+        newBlock();
     }
 
-    public void newrblock() {
+    public void newBlock() {
         int i;
         Random random = new Random();
         i = random.nextInt(100) % 7;
         for (int j = 0; j < 4; j++) {
             ps[j][0] = block[i][j][0];
             ps[j][1] = block[i][j][1];
-            initps[j][0] = ps[j][0];
-            initps[j][1] = ps[j][1];
+            initPS[j][0] = ps[j][0];
+            initPS[j][1] = ps[j][1];
         }
         code = i + 1;
     }
 
-    public boolean islimit(int[][] p) {
+    public boolean isLimit(int[][] p) {
         int i;
         for (i = 0; i < 4; i++) {
             if (p[i][0] < 0 || p[i][0] > 9 || p[i][1] < 0 || p[i][1] > 19)
@@ -58,7 +58,7 @@ public class Block {
         return false;
     }
 
-    public boolean isconflic(int[][] b, int[][] map) {
+    public boolean isConfig(int[][] b, int[][] map) {
         int i;
         for (i = 0; i < 4; i++) {
             if ((map[b[i][1]][b[i][0]]) == 1) return true;
@@ -78,7 +78,7 @@ public class Block {
             tp[i][0] = ps[i][0] - 1;
             tp[i][1] = ps[i][1];
         }
-        if (!islimit(tp) && !isconflic(tp, map)) {
+        if (!isLimit(tp) && !isConfig(tp, map)) {
             ps = tp;
         }
     }
@@ -94,7 +94,7 @@ public class Block {
             tp[i][0] = ps[i][0] + 1;
             tp[i][1] = ps[i][1];
         }
-        if (!islimit(tp) && !isconflic(tp, map)) {
+        if (!isLimit(tp) && !isConfig(tp, map)) {
             ps = tp;
         }
     }
@@ -111,7 +111,7 @@ public class Block {
             tp[i][0] = ps[i][0];
             tp[i][1] = ps[i][1] + 1;
         }
-        if (!islimit(tp) && !isconflic(tp, map)) {
+        if (!isLimit(tp) && !isConfig(tp, map)) {
             ps = tp;
             return true;
         }
@@ -139,7 +139,7 @@ public class Block {
                 tp[1][1]--;
                 tp[3][0]--;
                 tp[3][1]--;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 11;
                     return true;
@@ -151,7 +151,7 @@ public class Block {
                 tp[1][1]++;
                 tp[3][0]++;
                 tp[3][1]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 1;
                     return true;
@@ -164,7 +164,7 @@ public class Block {
                 tp[2][1] += 2;
                 tp[3][0] -= 3;
                 tp[3][1] += 3;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 21;
                     return true;
@@ -177,14 +177,14 @@ public class Block {
                 tp[2][1] -= 2;
                 tp[3][0] += 3;
                 tp[3][1] -= 3;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 2;
                     return true;
                 } else
                     return false;
             case 3:
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 3;
                     return true;
@@ -196,7 +196,7 @@ public class Block {
                 tp[2][0]++;
                 tp[2][1]--;
                 tp[3][1] -= 2;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 41;
                     return true;
@@ -208,7 +208,7 @@ public class Block {
                 tp[2][0]--;
                 tp[2][1]++;
                 tp[3][1] += 2;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 4;
                     return true;
@@ -220,7 +220,7 @@ public class Block {
                 tp[2][0]--;
                 tp[3][0] -= 2;
                 tp[3][1]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 51;
                     return true;
@@ -233,7 +233,7 @@ public class Block {
                 tp[2][0]++;
                 tp[2][1]--;
                 tp[3][1] -= 2;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 52;
                     return true;
@@ -246,7 +246,7 @@ public class Block {
                 tp[1][1] += 2;
                 tp[2][1]++;
                 tp[3][0]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 53;
                     return true;
@@ -258,7 +258,7 @@ public class Block {
                 tp[1][1]--;
                 tp[3][0]++;
                 tp[3][1]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 5;
                     return true;
@@ -271,7 +271,7 @@ public class Block {
                 tp[1][1]++;
                 tp[2][0]--;
                 tp[3][1]--;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 61;
                     return true;
@@ -284,7 +284,7 @@ public class Block {
                 tp[2][0]++;
                 tp[2][1]--;
                 tp[3][0] += 2;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 62;
                     return true;
@@ -296,7 +296,7 @@ public class Block {
                 tp[2][1]++;
                 tp[3][0]--;
                 tp[3][1] += 2;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 63;
                     return true;
@@ -308,7 +308,7 @@ public class Block {
                 tp[1][1]++;
                 tp[3][0]--;
                 tp[3][1]--;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 6;
                     return true;
@@ -320,7 +320,7 @@ public class Block {
                 tp[2][0]--;
                 tp[3][0] -= 2;
                 tp[3][1]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 71;
                     return true;
@@ -331,7 +331,7 @@ public class Block {
                 tp[2][0]++;
                 tp[2][1]--;
                 tp[3][1] -= 2;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 72;
                     return true;
@@ -343,7 +343,7 @@ public class Block {
                 tp[1][0]--;
                 tp[2][1]++;
                 tp[3][0]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 73;
                     return true;
@@ -356,7 +356,7 @@ public class Block {
                 tp[1][1]--;
                 tp[3][0]++;
                 tp[3][1]++;
-                if (!islimit(tp) && !isconflic(tp, map)) {
+                if (!isLimit(tp) && !isConfig(tp, map)) {
                     ps = tp;
                     code = 7;
                     return true;
@@ -366,7 +366,7 @@ public class Block {
         return false;
     }
 
-    public void drawblock(Canvas canvas, Bitmap bitmap, int[][] ps) {
+    public void drawBlock(Canvas canvas, Bitmap bitmap, int[][] ps) {
         Rect rect = new Rect();
         int i;
         int x, y;
